@@ -1,6 +1,8 @@
 <template>
     <div id="app">
+        <h1>Cadastro de Produtos</h1>
         <ProductForm :addProduct="addProduct" />
+        <p> Total de produtos já inseridos: {{qtdeProdutos}} </p>
         <ProductsList :products="products"/>
     </div>
 </template>
@@ -16,13 +18,18 @@
             ProductForm
         },
         methods: {
-          addProduct (product) {
-            this.products = this.products.concat({
-                name: product.Name,
-                price: product.Price,
-                unit: product.Unit
-            });
-          }
+            addProduct (product) {
+              this.products = this.products.concat({
+                  name: product.Name,
+                  price: product.Price,
+                  unit: product.Unit
+              });
+            }
+        },        
+        computed: {
+            qtdeProdutos() {
+              return this.products.length;
+            }
         },        
         data() {
             return {

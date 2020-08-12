@@ -1,26 +1,27 @@
 <template>
     <div>
+        {{mensagemErroTamanhoNome}}
         <form @submit="onFormSubmit">
             <p>
                 <label>Nome:</label>
-                <input type="text" v-model="product.Name">
+                <input type="text" v-model="Name">
                 {{firstNameError}}
             </p>
 
             <p>
                 <label>Preço:</label>
-                <input type="text" v-model="product.Price">
+                <input type="text" v-model="Price">
             </p>
 
             <p>
                 <label>Unidade Medida:</label>
-                <input type="text" v-model="product.Unit">
+                <input type="text" v-model="Unit">
             </p>
 
-            <button type="submit">Cadastrar</button>
+            <button type="submit" :disabled="isNameLimitExceeded">Cadastrar</button>
         </form>
 
-        <p>{{product.Name}} por apenas {{product.Price}} cada {{product.Unit}}.</p>
+        <p>{{Name}} por apenas {{Price}} cada {{Unit}}.</p>
     </div>
 </template>
 
@@ -32,10 +33,21 @@
         },
         data () {
             return {
-                product: {
-                    Name: "",
-                    Price: 0,
-                    Unit: ""
+                Name: "",
+                Price: "",
+                Unit: "",
+                isNameLimitExceeded: false,
+                mensagemErroTamanhoNome: ""
+            }
+        },
+        watch: {
+            Name() {
+                if (this.Name.length >15) {
+                    this.isNameLimitExceeded = true;
+                    this.mensagemErroTamanhoNome ="Nome não pode ser superior a 15 caracteres."
+                } else {
+                    this.isNameLimitExceeded = false;
+                    this.mensagemErroTamanhoNome =""
                 }
             }
         },
@@ -43,7 +55,11 @@
             onFormSubmit(e) {
                 e.preventDefault();
 
-                this.addProduct(this.product)
+                this.addProduct({
+                    Name: this.Name,
+                    Price: this.Price,
+                    Unit: this.Unit
+                })
             }
         }
     };
