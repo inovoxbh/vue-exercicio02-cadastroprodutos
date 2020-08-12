@@ -1,8 +1,6 @@
 <template>
     <div>
-        <p>{{ item.nome }}</p>
-        <p>{{ item.preco }}</p>
-        <p>{{ item.unidademedida }}</p>
+        <p>{{ item.name }} por apenas R$ {{ item.price }} cada {{ item.unit }}.</p>
     </div>
 </template>
 
